@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Tab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&family=Space+Mono&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+  <!-- Background -->
+  <div class="background" id="background">
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Focus Mode Overlay (blocks everything except timer) -->
+  <div class="focus-mode-overlay" id="focusModeOverlay"></div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Top Left: Links, Sounds & Focus Mode -->
+    <div class="top-left">
+      <button class="icon-btn" id="linksBtn" title="Links">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+        </svg>
+      </button>
+
+      <!-- Sounds Button -->
+      <button class="icon-btn" id="soundsBtn" title="Ambient Sounds">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18V5l12-2v13" />
+          <circle cx="6" cy="18" r="3" />
+          <circle cx="18" cy="16" r="3" />
+        </svg>
+      </button>
+
+      <!-- Focus Mode Button -->
+      <button class="icon-btn" id="focusModeBtn" title="Focus Mode">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <circle cx="12" cy="12" r="6" />
+          <circle cx="12" cy="12" r="2" />
+        </svg>
+      </button>
+
+      <!-- Links Panel -->
+      <div class="links-panel panel" id="linksPanel">
+        <h3>Quick Links</h3>
+        <div class="links-list" id="linksList"></div>
+        <div class="add-link">
+          <input type="text" id="linkName" placeholder="Name">
+          <input type="url" id="linkUrl" placeholder="URL">
+          <button id="addLinkBtn">Add</button>
+        </div>
+      </div>
+
+      <!-- Sounds Panel -->
+      <div class="sounds-panel panel" id="soundsPanel">
+        <h3>🎧 Ambient Sounds</h3>
+        <div class="sounds-grid" id="soundsGrid">
+          <button class="sound-btn" data-sound="rain" title="Rain">🌧️</button>
+          <button class="sound-btn" data-sound="forest" title="Forest">🌲</button>
+          <button class="sound-btn" data-sound="ocean" title="Ocean">🌊</button>
+          <button class="sound-btn" data-sound="fire" title="Fireplace">🔥</button>
+          <button class="sound-btn" data-sound="cafe" title="Café">☕</button>
+          <button class="sound-btn" data-sound="wind" title="Wind">💨</button>
+          <button class="sound-btn" data-sound="thunder" title="Thunder">⛈️</button>
+          <button class="sound-btn" data-sound="birds" title="Birds">🐦</button>
+        </div>
+        <div class="sound-volume">
+          <label>Volume</label>
+          <input type="range" id="soundVolume" min="0" max="100" value="50">
+        </div>
+        <div class="sound-mixer">
+          <label>Active Sounds</label>
+          <div id="activeSounds" class="active-sounds"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Right: Weather, World Clocks & Metrics -->
+    <div class="top-right">
+      <!-- World Clocks Button -->
+      <button class="icon-btn" id="worldClocksBtn" title="World Clocks">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="2" y1="12" x2="22" y2="12" />
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+        </svg>
+      </button>
+
+      <!-- Metrics Button -->
+      <button class="icon-btn" id="metricsBtn" title="Productivity Metrics">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="20" x2="18" y2="10" />
+          <line x1="12" y1="20" x2="12" y2="4" />
+          <line x1="6" y1="20" x2="6" y2="14" />
+        </svg>
+      </button>
+
+      <div class="weather-widget" id="weatherWidget">
+        <span class="weather-icon" id="weatherIcon">☀️</span>
+        <span class="weather-temp" id="weatherTemp">--°</span>
+        <span class="weather-location" id="weatherLocation">Loading...</span>
+      </div>
+
+      <!-- World Clocks Panel -->
+      <div class="world-clocks-panel panel" id="worldClocksPanel">
+        <h3>🌍 World Clocks</h3>
+        <div class="world-clocks-list" id="worldClocksList"></div>
+        <div class="add-world-clock">
+          <select id="timezoneSelect">
+            <option value="">Select timezone...</option>
+            <option value="America/New_York">New York (EST)</option>
+            <option value="America/Los_Angeles">Los Angeles (PST)</option>
+            <option value="America/Chicago">Chicago (CST)</option>
+            <option value="Europe/London">London (GMT)</option>
+            <option value="Europe/Paris">Paris (CET)</option>
+            <option value="Europe/Berlin">Berlin (CET)</option>
+            <option value="Asia/Tokyo">Tokyo (JST)</option>
+            <option value="Asia/Shanghai">Shanghai (CST)</option>
+            <option value="Asia/Dubai">Dubai (GST)</option>
+            <option value="Asia/Singapore">Singapore (SGT)</option>
+            <option value="Asia/Kolkata">Mumbai (IST)</option>
+            <option value="Asia/Dhaka">Dhaka (BST)</option>
+            <option value="Australia/Sydney">Sydney (AEST)</option>
+            <option value="Pacific/Auckland">Auckland (NZST)</option>
+          </select>
+          <button id="addWorldClockBtn">Add</button>
+        </div>
+      </div>
+
+      <!-- Metrics Panel -->
+      <div class="metrics-panel panel" id="metricsPanel">
+        <h3>📊 Productivity Metrics</h3>
+        <div class="metrics-stats">
+          <div class="metric-card">
+            <div class="metric-value" id="metricFocusSessions">0</div>
+            <div class="metric-label">Focus Sessions</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" id="metricTotalTime">0h</div>
+            <div class="metric-label">Focus Time</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" id="metricTasksCompleted">0</div>
+            <div class="metric-label">Tasks Done</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" id="metricStreak">0</div>
+            <div class="metric-label">Day Streak</div>
+          </div>
+        </div>
+        <div class="metrics-chart" id="metricsChart">
+          <div class="chart-bars" id="chartBars"></div>
+          <div class="chart-labels">
+            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center: Clock, Greeting, Focus, Mantras -->
+    <div class="center" id="centerContent">
+      <!-- Pomodoro Timer (hidden by default, shown when active) -->
+      <div class="pomodoro-container" id="pomodoroContainer">
+        <svg class="pomodoro-ring" viewBox="0 0 200 200">
+          <circle class="pomodoro-ring-bg" cx="100" cy="100" r="90" />
+          <circle class="pomodoro-ring-progress" cx="100" cy="100" r="90" id="pomodoroProgress" />
+        </svg>
+        <div class="pomodoro-time" id="pomodoroTime">25:00</div>
+        <div class="pomodoro-label" id="pomodoroLabel">Focus Time</div>
+        <div class="pomodoro-sessions" id="pomodoroSessions">
+          <span class="session-dot"></span>
+          <span class="session-dot"></span>
+          <span class="session-dot"></span>
+          <span class="session-dot"></span>
+        </div>
+      </div>
+
+      <!-- Clock (shown when Pomodoro is inactive) -->
+      <div class="clock-container" id="clockContainer">
+        <div class="clock" id="clock">00:00</div>
+      </div>
+
+      <!-- Pomodoro Toggle Button -->
+      <button class="pomodoro-toggle" id="pomodoroToggle" title="Pomodoro Timer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+      </button>
+
+      <!-- Mantra (above greeting, optional) -->
+      <div class="mantra-container" id="mantraContainer">
+        <p class="mantra-text" id="mantraText"></p>
+      </div>
+
+      <!-- Greeting -->
+      <div class="greeting" id="greeting">Good evening, friend</div>
+
+      <!-- Focus Input -->
+      <div class="focus-container">
+        <div class="focus-question" id="focusQuestion">What is your main focus for today?</div>
+        <input type="text" class="focus-input" id="focusInput" placeholder="Enter your focus...">
+        <div class="focus-display" id="focusDisplay">
+          <input type="checkbox" class="focus-checkbox" id="focusCheckbox">
+          <span class="focus-text" id="focusText"></span>
+          <button class="focus-clear" id="focusClear">✕</button>
+        </div>
+      </div>
+
+      <!-- Pomodoro Controls -->
+      <div class="pomodoro-controls" id="pomodoroControls">
+        <button class="pomodoro-btn" id="pomodoroStart">Start</button>
+        <button class="pomodoro-btn" id="pomodoroPause" style="display:none;">Pause</button>
+        <button class="pomodoro-btn secondary" id="pomodoroReset">Reset</button>
+        <button class="pomodoro-btn secondary" id="pomodoroBreak">Break</button>
+        <button class="pomodoro-btn secondary" id="pomodoroSkip" title="Skip to next">⏭</button>
+      </div>
+    </div>
+
+    <!-- Bottom Left: Settings & Notes -->
+    <div class="bottom-left">
+      <button class="icon-btn" id="settingsBtn" title="Settings">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+        </svg>
+      </button>
+
+      <!-- Notes Button -->
+      <button class="icon-btn" id="notesBtn" title="Notes">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+          <line x1="10" y1="9" x2="8" y2="9" />
+        </svg>
+      </button>
+
+      <!-- Photos Button -->
+      <button class="icon-btn" id="photosBtn" title="Custom Photos">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <polyline points="21 15 16 10 5 21" />
+        </svg>
+      </button>
+
+      <!-- Settings Panel (Enhanced) -->
+      <div class="settings-panel panel" id="settingsPanel">
+        <h3>⚙️ Settings</h3>
+        <div class="settings-tabs">
+          <button class="settings-tab active" data-tab="general">General</button>
+          <button class="settings-tab" data-tab="pomodoro">Pomodoro</button>
+          <button class="settings-tab" data-tab="blocker">Blocker</button>
+          <button class="settings-tab" data-tab="appearance">Theme</button>
+        </div>
+
+        <div class="settings-content" id="settingsGeneral">
+          <div class="setting-item">
+            <label>Your Name</label>
+            <input type="text" id="settingsName" placeholder="Enter your name">
+          </div>
+          <div class="setting-item">
+            <label>Time Format</label>
+            <select id="settingsTimeFormat">
+              <option value="12">12-hour</option>
+              <option value="24">24-hour</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <label>Mantra</label>
+            <input type="text" id="settingsMantra" placeholder="Your personal mantra...">
+          </div>
+          <div class="setting-item toggle">
+            <label>Show Seconds</label>
+            <input type="checkbox" id="settingsShowSeconds">
+          </div>
+        </div>
+
+        <div class="settings-content hidden" id="settingsPomodoro">
+          <div class="setting-item">
+            <label>Focus Duration (min)</label>
+            <input type="number" id="settingsFocusDuration" value="25" min="1" max="90">
+          </div>
+          <div class="setting-item">
+            <label>Short Break (min)</label>
+            <input type="number" id="settingsBreakDuration" value="5" min="1" max="30">
+          </div>
+          <div class="setting-item">
+            <label>Long Break (min)</label>
+            <input type="number" id="settingsLongBreak" value="15" min="5" max="60">
+          </div>
+          <div class="setting-item">
+            <label>Sessions until Long Break</label>
+            <input type="number" id="settingsLongBreakInterval" value="4" min="2" max="8">
+          </div>
+          <div class="setting-item toggle">
+            <label>Auto-start Breaks</label>
+            <input type="checkbox" id="settingsAutoBreak">
+          </div>
+          <div class="setting-item toggle">
+            <label>Auto-start Focus</label>
+            <input type="checkbox" id="settingsAutoFocus">
+          </div>
+        </div>
+
+        <div class="settings-content hidden" id="settingsAppearance">
+          <div class="setting-item">
+            <label>Font Family</label>
+            <select id="settingsFont">
+              <option value="Inter">Inter (Default)</option>
+              <option value="Playfair Display">Playfair Display</option>
+              <option value="Space Mono">Space Mono</option>
+              <option value="system-ui">System UI</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <label>Clock Size</label>
+            <select id="settingsClockSize">
+              <option value="normal">Normal</option>
+              <option value="large">Large</option>
+              <option value="small">Small</option>
+            </select>
+          </div>
+          <div class="setting-item toggle">
+            <label>Dark Overlay</label>
+            <input type="checkbox" id="settingsDarkOverlay" checked>
+          </div>
+        </div>
+
+        <div class="settings-content hidden" id="settingsBlocker">
+          <div class="setting-item toggle">
+            <label>Enable Site Blocking</label>
+            <input type="checkbox" id="settingsBlockingEnabled" checked>
+          </div>
+          <div class="setting-item">
+            <label>Blocked Sites</label>
+            <div class="blocked-sites-list" id="blockedSitesList">
+              <label class="site-toggle"><input type="checkbox" data-site="facebook.com" checked> Facebook</label>
+              <label class="site-toggle"><input type="checkbox" data-site="instagram.com" checked> Instagram</label>
+              <label class="site-toggle"><input type="checkbox" data-site="youtube.com" checked> YouTube</label>
+              <label class="site-toggle"><input type="checkbox" data-site="twitter.com" checked> Twitter/X</label>
+              <label class="site-toggle"><input type="checkbox" data-site="tiktok.com" checked> TikTok</label>
+              <label class="site-toggle"><input type="checkbox" data-site="reddit.com" checked> Reddit</label>
+              <label class="site-toggle"><input type="checkbox" data-site="linkedin.com" checked> LinkedIn</label>
+              <label class="site-toggle"><input type="checkbox" data-site="discord.com" checked> Discord</label>
+              <label class="site-toggle"><input type="checkbox" data-site="twitch.tv" checked> Twitch</label>
+              <label class="site-toggle"><input type="checkbox" data-site="snapchat.com" checked> Snapchat</label>
+            </div>
+          </div>
+          <p class="setting-note">🛡️ Blocked sites will show a focus page with timed bypass options.</p>
+        </div>
+      </div>
+
+      <!-- Notes Panel -->
+      <div class="notes-panel panel" id="notesPanel">
+        <h3>📝 Notes</h3>
+        <textarea id="notesTextarea" placeholder="Write your thoughts, ideas, or notes here..."></textarea>
+        <div class="notes-footer">
+          <span class="notes-count" id="notesCount">0 characters</span>
+          <button class="notes-clear" id="notesClear">Clear</button>
+        </div>
+      </div>
+
+      <!-- Photos Panel -->
+      <div class="photos-panel panel" id="photosPanel">
+        <h3>🖼️ Custom Photos</h3>
+        <div class="photos-options">
+          <label class="photo-option">
+            <input type="radio" name="photoSource" value="default" checked>
+            <span>Default Photos</span>
+          </label>
+          <label class="photo-option">
+            <input type="radio" name="photoSource" value="custom">
+            <span>Custom URL</span>
+          </label>
+        </div>
+        <div class="custom-photo-input" id="customPhotoInput" style="display:none;">
+          <input type="url" id="customPhotoUrl" placeholder="Paste image URL...">
+          <button id="setCustomPhoto">Set</button>
+        </div>
+        <div class="photo-actions">
+          <button class="photo-action-btn" id="skipPhoto">⏭ Skip Photo</button>
+          <button class="photo-action-btn" id="shufflePhoto">🔀 Shuffle</button>
+        </div>
+      </div>
+
+      <div class="photo-credit" id="photoCredit">
+        Photo by <span id="photographerName">Unsplash</span>
+      </div>
+    </div>
+
+    <!-- Bottom Center: Quote -->
+    <div class="bottom-center">
+      <div class="quote-container" id="quoteContainer">
+        <p class="quote-text" id="quoteText">"The secret of getting ahead is getting started."</p>
+        <p class="quote-author" id="quoteAuthor">— Mark Twain</p>
+        <button class="quote-refresh" id="quoteRefresh" title="New Quote">↻</button>
+      </div>
+    </div>
+
+    <!-- Bottom Right: To-Do List & Countdown -->
+    <div class="bottom-right">
+      <!-- Countdown Button -->
+      <button class="icon-btn" id="countdownBtn" title="Countdown Timer">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12" />
+          <path d="M9 3h6" />
+        </svg>
+      </button>
+
+      <button class="icon-btn todo-toggle" id="todoToggle" title="To-Do List">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 11l3 3L22 4" />
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+        </svg>
+        <span class="todo-count" id="todoCount">0</span>
+      </button>
+
+      <!-- Countdown Panel -->
+      <div class="countdown-panel panel" id="countdownPanel">
+        <h3>⏳ Countdown</h3>
+        <div class="countdown-list" id="countdownList"></div>
+        <div class="add-countdown">
+          <input type="text" id="countdownName" placeholder="Event name">
+          <input type="date" id="countdownDate">
+          <button id="addCountdownBtn">Add</button>
+        </div>
+      </div>
+
+      <div class="todo-panel panel" id="todoPanel">
+        <h3>To-Do</h3>
+        <ul class="todo-list" id="todoList"></ul>
+        <div class="add-todo">
+          <input type="text" id="todoInput" placeholder="Add a task...">
+          <button id="addTodoBtn">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Elements -->
+  <audio id="timerSound" preload="auto">
+    <source src="assets/sounds/bell.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Ambient Sound Elements (will be created dynamically) -->
+  <div id="audioContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/clock.js"></script>
+  <script src="js/greeting.js"></script>
+  <script src="js/focus.js"></script>
+  <script src="js/quotes.js"></script>
+  <script src="js/background.js"></script>
+  <script src="js/weather.js"></script>
+  <script src="js/todo.js"></script>
+  <script src="js/pomodoro.js"></script>
+  <script src="js/links.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/sounds.js"></script>
+  <script src="js/notes.js"></script>
+  <script src="js/worldclocks.js"></script>
+  <script src="js/metrics.js"></script>
+  <script src="js/countdown.js"></script>
+  <script src="js/focusmode.js"></script>
+  <script src="js/mantras.js"></script>
+  <script src="js/photos.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>

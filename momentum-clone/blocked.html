@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Blocked - Focus Tab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/blocked.css">
+</head>
+
+<body>
+    <div class="blocked-container">
+        <div class="blocked-card">
+            <!-- Icon -->
+            <div class="blocked-icon">🛡️</div>
+
+            <!-- Message -->
+            <h1 class="blocked-title">Stay Focused!</h1>
+            <p class="blocked-message">
+                <span class="site-name" id="siteName">This site</span> is blocked to help you stay productive.
+            </p>
+
+            <!-- Motivational Quote -->
+            <div class="blocked-quote">
+                <p id="motivationalQuote">"The secret of getting ahead is getting started."</p>
+                <span class="quote-author">— Mark Twain</span>
+            </div>
+
+            <!-- Actions -->
+            <div class="blocked-actions">
+                <button class="action-btn primary" id="goBackBtn">
+                    ← Go to New Tab
+                </button>
+
+                <button class="action-btn secondary" id="timedAccessBtn">
+                    ⏱️ Request Timed Access
+                </button>
+            </div>
+
+            <!-- Timed Access Panel (hidden by default) -->
+            <div class="timed-access-panel hidden" id="timedAccessPanel">
+                <h3>How long do you need?</h3>
+                <p class="panel-subtitle">You'll be notified 3 minutes before time expires</p>
+
+                <div class="duration-options">
+                    <button class="duration-btn" data-minutes="5">5 min</button>
+                    <button class="duration-btn" data-minutes="10">10 min</button>
+                    <button class="duration-btn" data-minutes="15">15 min</button>
+                    <button class="duration-btn" data-minutes="30">30 min</button>
+                </div>
+
+                <div class="custom-duration">
+                    <input type="number" id="customMinutes" min="1" max="120" placeholder="Custom">
+                    <span>minutes</span>
+                    <button class="duration-btn custom" id="customDurationBtn">Set</button>
+                </div>
+
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <button class="emergency-btn" id="emergencyBtn">
+                    🚨 Emergency Access (No Timer)
+                </button>
+                <p class="emergency-warning">Use sparingly — this defeats the purpose!</p>
+            </div>
+
+            <!-- Emergency Confirmation Modal -->
+            <div class="modal hidden" id="emergencyModal">
+                <div class="modal-content">
+                    <h3>⚠️ Are you sure?</h3>
+                    <p>Emergency access removes the time limit. This site won't be blocked again until you close the tab
+                        or restart your browser.</p>
+                    <p class="modal-question">Is this truly necessary?</p>
+                    <div class="modal-actions">
+                        <button class="modal-btn cancel" id="cancelEmergency">No, set a timer instead</button>
+                        <button class="modal-btn confirm" id="confirmEmergency">Yes, I need emergency access</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timer Active Status -->
+            <div class="timer-status hidden" id="timerStatus">
+                <div class="timer-display">
+                    <span class="timer-icon">⏱️</span>
+                    <span class="timer-remaining" id="timerRemaining">00:00</span>
+                </div>
+                <p class="timer-message">Access granted. Redirecting...</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="blocked-footer">
+            <p>Focus Tab — Helping you stay productive</p>
+        </div>
+    </div>
+
+    <script src="js/blocked.js"></script>
+</body>
+
+</html>

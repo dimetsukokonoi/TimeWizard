@@ -1,0 +1,194 @@
+[
+    {
+        "id": 1,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/blocked.html?site=facebook.com"
+            }
+        },
+        "condition": {
+            "urlFilter": "||facebook.com",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    },
+    {
+        "id": 2,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/blocked.html?site=fb.com"
+            }
+        },
+        "condition": {
+            "urlFilter": "||fb.com",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    },
+    {
+        "id": 3,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/blocked.html?site=instagram.com"
+            }
+        },
+        "condition": {
+            "urlFilter": "||instagram.com",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    },
+    {
+        "id": 4,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/blocked.html?site=youtube.com"
+            }
+        },
+        "condition": {
+            "urlFilter": "||youtube.com",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    },
+    {
+        "id": 5,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/blocked.html?site=twitter.com"
+            }
+        },
+        "condition": {
+            "urlFilter": "||twitter.com",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    },
+    {
+        "id": 6,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/blocked.html?site=x.com"
+            }
+        },
+        "condition": {
+            "urlFilter": "||x.com",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    },
+    {
+        "id": 7,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/blocked.html?site=tiktok.com"
+            }
+        },
+        "condition": {
+            "urlFilter": "||tiktok.com",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    },
+    {
+        "id": 8,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/blocked.html?site=reddit.com"
+            }
+        },
+        "condition": {
+            "urlFilter": "||reddit.com",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    },
+    {
+        "id": 9,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/blocked.html?site=snapchat.com"
+            }
+        },
+        "condition": {
+            "urlFilter": "||snapchat.com",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    },
+    {
+        "id": 10,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/blocked.html?site=linkedin.com"
+            }
+        },
+        "condition": {
+            "urlFilter": "||linkedin.com",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    },
+    {
+        "id": 11,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/blocked.html?site=discord.com"
+            }
+        },
+        "condition": {
+            "urlFilter": "||discord.com",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    },
+    {
+        "id": 12,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/blocked.html?site=twitch.tv"
+            }
+        },
+        "condition": {
+            "urlFilter": "||twitch.tv",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    }
+]
