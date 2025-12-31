@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Focus Tab - Distraction Blocker",
+  "name": "TimeWizard",
   "version": "1.0.0",
-  "description": "A beautiful new tab dashboard with Pomodoro timer, focus tools, and social media blocking to keep you productive",
+  "description": "TimeWizard - Your magical productivity companion with Pomodoro timer, ambient sounds, world clocks, and distraction blocking to master your time",
   "permissions": [
     "storage",
     "declarativeNetRequest",
@@ -39,8 +39,8 @@
     ]
   },
   "icons": {
-    "16": "assets/icons/icon16.png",
-    "48": "assets/icons/icon48.png",
-    "128": "assets/icons/icon128.png"
+    "16": "assets/icons/Icon16.png",
+    "48": "assets/icons/Icon48.png",
+    "128": "assets/icons/Icon128.png"
   }
 }
