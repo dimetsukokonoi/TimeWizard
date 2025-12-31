@@ -188,39 +188,83 @@ body {
 }
 
 /* ============================================
-   PANELS (Glassmorphism)
+   PANELS (Greyish Transparent Glassmorphism)
    ============================================ */
 
 .panel {
   position: absolute;
-  background: var(--panel-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--panel-border);
-  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 20px;
   padding: var(--spacing-md);
   min-width: 280px;
-  box-shadow: var(--box-shadow);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(10px);
+  transform: translateY(10px) scale(0.98);
   transition: all var(--transition-normal);
   z-index: 100;
+  color: #fff;
 }
 
 .panel.active {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .panel h3 {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   margin-bottom: var(--spacing-sm);
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.95);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Panel text colors for glossy transparent theme */
+.panel label {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.panel .setting-item label {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.panel input,
+.panel select,
+.panel textarea {
+  background: rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+}
+
+.panel input::placeholder,
+.panel textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.panel input:focus,
+.panel select:focus,
+.panel textarea:focus {
+  background: rgba(0, 0, 0, 0.35) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
 }
 
 /* Links Panel */
@@ -243,8 +287,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-xs);
-  border-radius: var(--radius-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 12px;
   transition: background var(--transition-fast);
 }
 
@@ -253,9 +297,10 @@ body {
 }
 
 .link-item a {
-  color: var(--text-primary);
+  color: rgba(255, 255, 255, 0.9);
   text-decoration: none;
   flex: 1;
+  font-size: 0.9rem;
 }
 
 .link-item .delete-link {
@@ -339,8 +384,8 @@ body {
 }
 
 .setting-item select option {
-  background: #1a1a1a;
-  color: var(--text-primary);
+  background: #f5f5f5;
+  color: #333;
 }
 
 /* ============================================
