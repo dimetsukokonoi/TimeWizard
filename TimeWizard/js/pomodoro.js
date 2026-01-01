@@ -177,6 +177,28 @@ const Pomodoro = {
         this.updateProgress();
     },
 
+    // Motivational messages for session completion
+    motivationalMessages: [
+        "🎉 Amazing work! You crushed it!",
+        "🔥 You're on fire! Keep going!",
+        "⭐ Fantastic focus session!",
+        "💪 Great job! You're unstoppable!",
+        "🚀 Session complete! You're a star!",
+        "🏆 Champion focus! Well done!",
+        "✨ Brilliant work! Take a breather!",
+        "🎯 Nailed it! Time for a break!",
+        "💫 Incredible discipline! Rest up!",
+        "🌟 You're making amazing progress!"
+    ],
+
+    breakMessages: [
+        "☕ Break's over! Ready to focus?",
+        "🌱 Refreshed? Let's get back to it!",
+        "💪 Recharged! Time to shine!",
+        "🎯 Break complete! Focus mode ON!",
+        "⚡ Energized! Let's do this!"
+    ],
+
     complete() {
         this.pause();
 
@@ -185,6 +207,14 @@ const Pomodoro = {
             this.timerSound.currentTime = 0;
             this.timerSound.play().catch(() => { });
         }
+
+        // Select random motivational message
+        const isCompletingFocus = !this.isBreak;
+        const messages = isCompletingFocus ? this.motivationalMessages : this.breakMessages;
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+        // Show motivational message temporarily
+        this.showCongratulation(randomMessage, isCompletingFocus);
 
         // Record metrics if focus session completed
         if (!this.isBreak) {
@@ -200,7 +230,7 @@ const Pomodoro = {
         // Show notification
         if (Notification.permission === 'granted') {
             new Notification(this.isBreak ? 'Break Complete!' : 'Focus Session Complete!', {
-                body: this.isBreak ? 'Ready to focus again?' : 'Time for a break!',
+                body: randomMessage,
                 icon: 'assets/icons/icon128.png'
             });
         }
@@ -223,7 +253,7 @@ const Pomodoro = {
             this.breakBtn.textContent = 'Focus';
 
             if (this.autoBreak) {
-                setTimeout(() => this.start(), 1000);
+                setTimeout(() => this.start(), 3000); // Delay to show message
             }
         } else {
             this.totalTime = this.focusDuration * 60;
@@ -233,12 +263,34 @@ const Pomodoro = {
             this.breakBtn.textContent = 'Break';
 
             if (this.autoFocus) {
-                setTimeout(() => this.start(), 1000);
+                setTimeout(() => this.start(), 3000); // Delay to show message
             }
         }
 
         this.updateDisplay();
         this.updateProgress();
+    },
+
+    showCongratulation(message, isFocusComplete) {
+        // Temporarily show congratulation message in the timer display
+        const originalTime = this.timeDisplay.textContent;
+
+        // Show message in label
+        this.labelDisplay.textContent = message;
+        this.labelDisplay.style.fontSize = '1rem';
+        this.labelDisplay.style.color = isFocusComplete ? 'var(--accent)' : 'var(--success)';
+
+        // Show celebratory time display
+        this.timeDisplay.textContent = isFocusComplete ? '🎉' : '☕';
+        this.timeDisplay.style.fontSize = '4rem';
+
+        // Restore after 2.5 seconds
+        setTimeout(() => {
+            this.labelDisplay.style.fontSize = '';
+            this.labelDisplay.style.color = '';
+            this.timeDisplay.style.fontSize = '';
+            this.updateDisplay();
+        }, 2500);
     },
 
     updateDisplay() {
@@ -263,22 +315,29 @@ const Pomodoro = {
     updateSessionDots() {
         if (!this.sessionDots) return;
 
-        const dots = this.sessionDots.querySelectorAll('.session-dot');
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('completed', i < this.currentSession);
-        });
+        // Dynamically create the correct number of dots based on longBreakInterval
+        let dotsHtml = '';
+        for (let i = 0; i < this.longBreakInterval; i++) {
+            const isCompleted = i < this.currentSession;
+            dotsHtml += `<span class="session-dot${isCompleted ? ' completed' : ''}"></span>`;
+        }
+        this.sessionDots.innerHTML = dotsHtml;
     },
 
     setDurations(focus, breakTime, longBreak, longBreakInterval) {
         this.focusDuration = focus;
         this.breakDuration = breakTime;
         if (longBreak) this.longBreakDuration = longBreak;
-        if (longBreakInterval) this.longBreakInterval = longBreakInterval;
+        // Clamp longBreakInterval to max 5 to keep dots in a single line
+        if (longBreakInterval) this.longBreakInterval = Math.min(longBreakInterval, 5);
 
         Storage.set('focusDuration', focus);
         Storage.set('breakDuration', breakTime);
         Storage.set('longBreakDuration', this.longBreakDuration);
         Storage.set('longBreakInterval', this.longBreakInterval);
+
+        // Update session dots to reflect new longBreakInterval
+        this.updateSessionDots();
 
         if (!this.isRunning) {
             this.reset();

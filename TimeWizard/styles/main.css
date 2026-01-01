@@ -439,11 +439,13 @@ body {
 
 .pomodoro-container {
   position: relative;
-  width: 250px;
-  height: 250px;
+  width: 280px;
+  height: 280px;
   display: none;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 .pomodoro-container.active {
@@ -477,20 +479,28 @@ body {
   stroke: var(--success);
 }
 
+/* Time centered in the circle */
 .pomodoro-time {
   font-size: 3.5rem;
   font-weight: 700;
   text-shadow: var(--text-shadow);
   z-index: 1;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
+/* Label positioned inside circle below time */
 .pomodoro-label {
   position: absolute;
-  bottom: 40px;
-  font-size: 0.875rem;
+  bottom: 55px;
+  font-size: 0.75rem;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  white-space: nowrap;
+  z-index: 1;
 }
 
 .pomodoro-toggle {
@@ -1481,22 +1491,27 @@ body.focus-mode-active .bottom-right {
    PREMIUM FEATURES - POMODORO SESSIONS
    ============================================ */
 
+/* Session dots positioned inside circle at the bottom */
 .pomodoro-sessions {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
   display: flex;
-  gap: 6px;
+  gap: 8px;
+  justify-content: center;
+  z-index: 1;
 }
 
 .session-dot {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
 }
 
 .session-dot.completed {
   background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
 }
 
 /* ============================================
